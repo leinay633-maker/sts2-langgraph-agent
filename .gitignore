@@ -1,0 +1,11 @@
+node_modules/
+dist/
+runs/
+.env
+.env.local
+*.log
+bin/
+obj/
+.vs/
+.vscode/
+coverage/

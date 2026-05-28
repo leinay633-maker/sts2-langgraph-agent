@@ -1,0 +1,36 @@
+{
+  "name": "sts2-langgraph-agent",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "A portfolio-grade Slay the Spire 2 long-horizon agent architecture using C# Bridge, MCP, and LangGraph.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "demo": "tsx scripts/demo.ts",
+    "mock-bridge": "tsx mock-bridge/src/server.ts",
+    "mcp-server": "tsx mcp-server/src/server.ts",
+    "langgraph": "tsx langgraph-runner/src/run.ts",
+    "check:csharp": "dotnet build bridge-csharp/Sts2LangGraphAgent.sln"
+  },
+  "dependencies": {
+    "@langchain/core": "^1.0.6",
+    "@langchain/langgraph": "^1.0.2",
+    "@modelcontextprotocol/sdk": "^1.22.0",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.1",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.14"
+  },
+  "overrides": {
+    "@langchain/langgraph": {
+      "uuid": "^11.1.1"
+    },
+    "@langchain/langgraph-checkpoint": {
+      "uuid": "^11.1.1"
+    }
+  }
+}
