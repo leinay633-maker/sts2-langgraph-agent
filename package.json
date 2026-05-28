@@ -7,8 +7,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
-    "demo": "tsx scripts/demo.ts",
-    "runtime-simulator": "tsx runtime-simulator/src/server.ts",
+    "agent:run": "tsx scripts/run-agent.ts",
+    "local-runtime": "tsx local-runtime/src/server.ts",
     "mcp-server": "tsx mcp-server/src/server.ts",
     "langgraph": "tsx langgraph-runner/src/run.ts",
     "check:csharp": "dotnet build bridge-csharp/Sts2LangGraphAgent.sln"

@@ -14,7 +14,7 @@
   },
   "include": [
     "shared/src/**/*.ts",
-    "runtime-simulator/src/**/*.ts",
+    "local-runtime/src/**/*.ts",
     "mcp-server/src/**/*.ts",
     "langgraph-runner/src/**/*.ts",
     "scripts/**/*.ts",

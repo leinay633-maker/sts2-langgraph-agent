@@ -5,9 +5,9 @@ import { setTimeout as delay } from "node:timers/promises";
 const runner = commandSpec();
 const bridgePort = process.env.BRIDGE_PORT ?? "15526";
 const bridgeUrl = process.env.BRIDGE_URL ?? `http://127.0.0.1:${bridgePort}`;
-const runId = process.env.RUN_ID ?? `demo-${new Date().toISOString().replace(/[:.]/g, "-")}`;
+const runId = process.env.RUN_ID ?? `agent-${new Date().toISOString().replace(/[:.]/g, "-")}`;
 
-const bridge = spawn(runner.command, [...runner.prefixArgs, "runtime-simulator/src/server.ts"], {
+const bridge = spawn(runner.command, [...runner.prefixArgs, "local-runtime/src/server.ts"], {
   cwd: process.cwd(),
   env: { ...process.env, BRIDGE_PORT: bridgePort },
   stdio: ["ignore", "pipe", "pipe"]
