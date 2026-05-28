@@ -10,7 +10,7 @@
 - 动作空间由 Bridge 枚举，模型只选择当前合法的 `action_id`。
 - 不可逆或高风险动作会进入 Verifier 节点复核。
 - 运行记忆按 facts、strategy、risks、events 分层保存，方便回放和恢复。
-- 本地 runtime simulator 用于稳定复现完整 Agent 链路和测试工具协议。
+- 本地 runtime 用于稳定复现完整 Agent 链路和测试工具协议。
 
 ## Why LangGraph
 

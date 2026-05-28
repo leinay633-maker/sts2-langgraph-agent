@@ -35,7 +35,7 @@ LangGraph Runner
 npm install
 npm run build
 npm run test
-npm run demo
+npm run agent:run
 ```
 
 运行后会在 `runs/<run_id>/` 生成一次完整 Agent 回放：
@@ -56,7 +56,7 @@ examples/sample-run/
 
 ```text
 bridge-csharp/        C# Bridge core, HTTP server, action resolver, stability guard
-runtime-simulator/    Local reproducible runtime for tests and replay
+local-runtime/        Local runtime used by tests and replay
 mcp-server/           MCP tools and Bridge HTTP client
 langgraph-runner/     LangGraph state machine and node implementations
 shared/               Shared TypeScript contracts and schemas
@@ -80,7 +80,7 @@ observe_state
 
 大部分路由由代码决定，不交给模型自由判断。Planner 只在奖励、地图、商店、事件等关键节点运行；Verifier 只审高风险动作；Memory 只写结构化 diff。
 
-## What This Demonstrates
+## Engineering Highlights
 
 - 无官方 Agent API 场景下的游戏运行时封装
 - MCP 工具边界与 LLM 动作约束
