@@ -11,9 +11,7 @@ public sealed class ModEntry
     {
         var config = BridgeConfig.Load();
 
-        // Replace SampleGameAdapter with a real Slay the Spire 2 adapter once
-        // the target game assemblies/types are available to this project.
-        IGameAdapter adapter = new SampleGameAdapter();
+        IGameAdapter adapter = new LocalRuntimeAdapter();
 
         _server = new HttpBridgeServer(adapter, config.Port);
         _server.Start();

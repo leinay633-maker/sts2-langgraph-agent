@@ -4,7 +4,7 @@ Bridge 的核心职责是把游戏进程内部状态转成稳定 DTO。
 
 ## 状态采集
 
-状态采集应由 Adapter 完成。真实游戏接入时，Adapter 读取当前 run、combat、player、enemy、card zone、map、reward、shop 等对象，然后转成 `GameStateDto`。
+状态采集由 Adapter 完成。Adapter 读取当前 run、combat、player、enemy、card zone、map、reward、shop 等对象，然后转成 `GameStateDto`。
 
 ## 合法动作
 
