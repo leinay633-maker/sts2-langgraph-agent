@@ -1,0 +1,148 @@
+{
+  "facts": {
+    "deck": [
+      "Strike",
+      "Strike",
+      "Defend",
+      "Defend",
+      "Bash",
+      "Inflame",
+      "Battle Trance"
+    ],
+    "relics": [
+      "Burning Blood",
+      "Anchor"
+    ],
+    "hp": {
+      "current": 58,
+      "max": 80
+    },
+    "gold": 35,
+    "phase": "victory",
+    "source_step": 9,
+    "source": "bridge"
+  },
+  "strategy": {
+    "build_direction": "strength_scaling",
+    "last_action_reason": "action executed",
+    "source_step": 9
+  },
+  "risks": {
+    "last_risk": {
+      "level": "low",
+      "needs_verifier": false,
+      "reason": "低风险合法动作，可直接执行。"
+    },
+    "source_step": 9
+  },
+  "events": [
+    {
+      "step_no": 0,
+      "event_type": "play_card",
+      "summary": "打出 Strike",
+      "source": "system"
+    },
+    {
+      "step_no": 1,
+      "event_type": "summary_diff",
+      "summary": "{\"strategy\":{\"build_direction\":\"unknown\",\"last_action_reason\":\"action executed\",\"source_step\":1},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":1}}",
+      "source": "model"
+    },
+    {
+      "step_no": 1,
+      "event_type": "play_card",
+      "summary": "打出 Defend",
+      "source": "system"
+    },
+    {
+      "step_no": 2,
+      "event_type": "summary_diff",
+      "summary": "{\"strategy\":{\"build_direction\":\"unknown\",\"last_action_reason\":\"action executed\",\"source_step\":2},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":2}}",
+      "source": "model"
+    },
+    {
+      "step_no": 2,
+      "event_type": "end_turn",
+      "summary": "结束回合",
+      "source": "system"
+    },
+    {
+      "step_no": 3,
+      "event_type": "summary_diff",
+      "summary": "{\"strategy\":{\"build_direction\":\"unknown\",\"last_action_reason\":\"action executed\",\"source_step\":3},\"risks\":{\"last_risk\":{\"level\":\"high\",\"needs_verifier\":true,\"reason\":\"动作风险为 high，需要复核：格挡足够，结束回合进入奖励页。\"},\"source_step\":3}}",
+      "source": "model"
+    },
+    {
+      "step_no": 3,
+      "event_type": "choose_reward",
+      "summary": "选择 Inflame",
+      "source": "system"
+    },
+    {
+      "step_no": 4,
+      "event_type": "summary_diff",
+      "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":4},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":4}}",
+      "source": "model"
+    },
+    {
+      "step_no": 4,
+      "event_type": "choose_map_node",
+      "summary": "选择安全路线",
+      "source": "system"
+    },
+    {
+      "step_no": 5,
+      "event_type": "summary_diff",
+      "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":5},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":5}}",
+      "source": "model"
+    },
+    {
+      "step_no": 5,
+      "event_type": "buy_item",
+      "summary": "购买 Battle Trance",
+      "source": "system"
+    },
+    {
+      "step_no": 6,
+      "event_type": "summary_diff",
+      "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":6},\"risks\":{\"last_risk\":{\"level\":\"medium\",\"needs_verifier\":false,\"reason\":\"动作风险为 medium，需要复核：补充过牌能力。\"},\"source_step\":6}}",
+      "source": "model"
+    },
+    {
+      "step_no": 6,
+      "event_type": "leave_shop",
+      "summary": "离开商店",
+      "source": "system"
+    },
+    {
+      "step_no": 7,
+      "event_type": "summary_diff",
+      "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":7},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":7}}",
+      "source": "model"
+    },
+    {
+      "step_no": 7,
+      "event_type": "play_card",
+      "summary": "对 Boss 打出 Bash",
+      "source": "system"
+    },
+    {
+      "step_no": 8,
+      "event_type": "summary_diff",
+      "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":8},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":8}}",
+      "source": "model"
+    },
+    {
+      "step_no": 8,
+      "event_type": "play_card",
+      "summary": "打出 Heavy Blade",
+      "source": "system"
+    },
+    {
+      "step_no": 9,
+      "event_type": "summary_diff",
+      "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":9},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":9}}",
+      "source": "model"
+    }
+  ]
+}
