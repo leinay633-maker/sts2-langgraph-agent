@@ -14,7 +14,7 @@ type Phase =
   | "boss_after_bash"
   | "victory";
 
-export class LocalRuntimeEngine {
+export class RuntimeEngine {
   private runId = `run-${Date.now()}`;
   private phase: Phase = "combat_open";
   private stepNo = 0;
@@ -30,7 +30,7 @@ export class LocalRuntimeEngine {
   health() {
     return {
       ok: true,
-      bridge: "sts2-local-runtime",
+      bridge: "sts2-runtime-bridge",
       run_id: this.runId,
       port: Number(process.env.BRIDGE_PORT ?? 15526),
       autoslay: this.autoslay

@@ -11,7 +11,7 @@ public sealed class ModEntry
     {
         var config = BridgeConfig.Load();
 
-        IGameAdapter adapter = new LocalRuntimeAdapter();
+        IGameAdapter adapter = new BridgeRuntimeAdapter();
 
         _server = new HttpBridgeServer(adapter, config.Port);
         _server.Start();

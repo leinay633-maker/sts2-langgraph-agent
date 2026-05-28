@@ -59,7 +59,7 @@ export function createGraph(mcp: McpFacade, logger: RunEventLogger) {
       return { plannerState };
     })
     .addNode("actor", async (state: RunGraphState) => {
-      const result = chooseAction(state);
+      const result = await chooseAction(state);
       await logger.event("actor", {
         action_id: result.candidateAction?.action_id,
         risk: result.risk?.level,

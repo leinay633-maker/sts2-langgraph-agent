@@ -52,11 +52,31 @@ npm run agent:run
 examples/reference-run/
 ```
 
+## Model Configuration
+
+Planner 和 Actor 节点支持模型驱动决策：
+
+```bash
+OPENAI_API_KEY=...
+OPENAI_MODEL=gpt-4.1-mini
+```
+
+CI 和回归测试保留确定性策略路径，用来验证 Bridge、MCP、LangGraph、Verifier 和 Memory 的完整控制链路。
+
+## Quality Gates
+
+```bash
+npm run verify
+npm run check:csharp
+```
+
+GitHub Actions 会执行 TypeScript build、单元测试、完整 Agent loop、C# Bridge build 和 C# tests。
+
 ## Repository Layout
 
 ```text
 bridge-csharp/        C# Bridge core, HTTP server, action resolver, stability guard
-local-runtime/        Local runtime used by tests and replay
+bridge-runtime/       Runtime bridge used by tests and replay
 mcp-server/           MCP tools and Bridge HTTP client
 langgraph-runner/     LangGraph state machine and node implementations
 shared/               Shared TypeScript contracts and schemas

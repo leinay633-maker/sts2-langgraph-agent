@@ -2,7 +2,7 @@ using System.Text.Json;
 
 namespace Sts2LangGraphAgent.Bridge.Core;
 
-public sealed class LocalRuntimeAdapter : IGameAdapter
+public sealed class BridgeRuntimeAdapter : IGameAdapter
 {
     private enum Phase
     {

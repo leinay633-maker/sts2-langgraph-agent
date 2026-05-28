@@ -1,10 +1,10 @@
 import http from "node:http";
 import { URL } from "node:url";
-import { LocalRuntimeEngine } from "./scenario.js";
+import { RuntimeEngine } from "./scenario.js";
 
 const port = Number(process.env.BRIDGE_PORT ?? 15526);
 const host = process.env.BRIDGE_HOST ?? "127.0.0.1";
-const engine = new LocalRuntimeEngine();
+const engine = new RuntimeEngine();
 
 const server = http.createServer(async (req, res) => {
   try {
@@ -55,7 +55,7 @@ const server = http.createServer(async (req, res) => {
 });
 
 server.listen(port, host, () => {
-  console.error(`[local-runtime] listening on http://${host}:${port}`);
+  console.error(`[bridge-runtime] listening on http://${host}:${port}`);
 });
 
 function json(res: http.ServerResponse, status: number, data: unknown) {

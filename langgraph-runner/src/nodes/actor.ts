@@ -1,5 +1,6 @@
 import type { CandidateAction, RiskAssessment } from "../../../shared/src/types.js";
 import type { RunGraphState } from "../state.js";
+import { invokeModelJson } from "../model.js";
 
 const preferredActionPatterns = [
   "play_strike",
@@ -13,7 +14,9 @@ const preferredActionPatterns = [
   "end_turn"
 ];
 
-export function chooseAction(state: RunGraphState): { candidateAction: CandidateAction | null; risk: RiskAssessment | null; lastError: string | null; haltReason?: string } {
+type ActorResult = { candidateAction: CandidateAction | null; risk: RiskAssessment | null; lastError: string | null; haltReason?: string };
+
+export async function chooseAction(state: RunGraphState): Promise<ActorResult> {
   const actions = state.legalActions;
   if (actions.length === 0) {
     return {
@@ -24,11 +27,32 @@ export function chooseAction(state: RunGraphState): { candidateAction: Candidate
     };
   }
 
+  const modelDecision = await invokeModelJson<{ action_id?: unknown; reason?: unknown }>("You are the Actor node for a Slay the Spire 2 long-horizon agent. Select exactly one current legal action_id. Never invent actions.", {
+    state_type: state.stateType,
+    screen: state.screen,
+    player: state.gameState?.player,
+    enemies: state.gameState?.enemies,
+    planner_state: state.plannerState,
+    memory: state.memory,
+    legal_actions: actions
+  }).catch(() => null);
+
+  if (typeof modelDecision?.action_id === "string") {
+    const legal = actions.find((action) => action.action_id === modelDecision.action_id);
+    if (legal) {
+      return buildResult(legal, typeof modelDecision.reason === "string" ? modelDecision.reason : legal.description);
+    }
+  }
+
   const selected =
     preferredActionPatterns
       .map((pattern) => actions.find((action) => action.action_id.includes(pattern) || action.action_type.includes(pattern)))
       .find(Boolean) ?? actions[0];
 
+  return buildResult(selected, `选择 ${selected.label}：${selected.description}`);
+}
+
+function buildResult(selected: RunGraphState["legalActions"][number], reason: string): ActorResult {
   const risk: RiskAssessment = {
     level: selected.risk,
     needs_verifier: selected.risk === "high" || selected.risk === "fatal",
@@ -40,7 +64,7 @@ export function chooseAction(state: RunGraphState): { candidateAction: Candidate
       action_id: selected.action_id,
       action_type: selected.action_type,
       target_id: typeof selected.metadata?.target_id === "string" ? selected.metadata.target_id : undefined,
-      reason: `选择 ${selected.label}：${selected.description}`
+      reason
     },
     risk,
     lastError: null
