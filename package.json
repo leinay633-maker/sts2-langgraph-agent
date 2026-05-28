@@ -3,12 +3,13 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "description": "A portfolio-grade Slay the Spire 2 long-horizon agent architecture using C# Bridge, MCP, and LangGraph.",
+  "description": "Slay the Spire 2 long-horizon agent architecture using C# Bridge, MCP, and LangGraph.",
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "test": "vitest run",
     "agent:run": "tsx scripts/run-agent.ts",
-    "local-runtime": "tsx local-runtime/src/server.ts",
+    "verify": "npm run build && npm run test && npm run agent:run",
+    "bridge-runtime": "tsx bridge-runtime/src/server.ts",
     "mcp-server": "tsx mcp-server/src/server.ts",
     "langgraph": "tsx langgraph-runner/src/run.ts",
     "check:csharp": "dotnet build bridge-csharp/Sts2LangGraphAgent.sln"
@@ -16,6 +17,7 @@
   "dependencies": {
     "@langchain/core": "^1.0.6",
     "@langchain/langgraph": "^1.0.2",
+    "@langchain/openai": "^1.4.7",
     "@modelcontextprotocol/sdk": "^1.22.0",
     "zod": "^4.1.13"
   },

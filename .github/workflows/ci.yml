@@ -1,0 +1,43 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.0.x
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build TypeScript
+        run: npm run build
+
+      - name: Run TypeScript tests
+        run: npm run test
+
+      - name: Run agent loop
+        run: npm run agent:run
+
+      - name: Build C# bridge
+        run: dotnet build bridge-csharp/Sts2LangGraphAgent.sln --configuration Release
+
+      - name: Run C# tests
+        run: dotnet test bridge-csharp/Sts2LangGraphAgent.sln --configuration Release --no-build
