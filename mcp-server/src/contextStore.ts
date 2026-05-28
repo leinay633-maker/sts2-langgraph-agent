@@ -1,9 +1,9 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-const root = path.resolve(process.env.KNOWLEDGE_DIR ?? path.join(process.cwd(), "knowledge"));
+const root = path.resolve(process.env.AGENT_CONTEXT_DIR ?? path.join(process.cwd(), "agent-context"));
 
-export async function searchKnowledge(query: string, limit = 5) {
+export async function searchContext(query: string, limit = 5) {
   const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
   const files = (await readdir(root)).filter((file) => file.endsWith(".md"));
   const hits: Array<{ file: string; score: number; preview: string }> = [];
@@ -20,7 +20,7 @@ export async function searchKnowledge(query: string, limit = 5) {
   return hits.sort((a, b) => b.score - a.score).slice(0, limit);
 }
 
-export async function readKbSection(file: string, heading?: string) {
+export async function readContextSection(file: string, heading?: string) {
   const content = await safeRead(file);
   if (!heading) {
     return { file, content };
@@ -48,7 +48,7 @@ async function safeRead(file: string) {
   const resolved = path.resolve(root, file);
   const relative = path.relative(root, resolved);
   if (relative.startsWith("..") || path.isAbsolute(relative)) {
-    throw new Error("KB path escapes knowledge root");
+    throw new Error("Context path escapes agent context root");
   }
   return readFile(resolved, "utf8");
 }

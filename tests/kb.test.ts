@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
-import { readKbSection, searchKnowledge } from "../mcp-server/src/kb.js";
+import { readContextSection, searchContext } from "../mcp-server/src/contextStore.js";
 
-describe("knowledge base tools", () => {
-  it("finds LangGraph knowledge", async () => {
-    const hits = await searchKnowledge("LangGraph Planner Actor", 3);
+describe("agent context tools", () => {
+  it("finds LangGraph context", async () => {
+    const hits = await searchContext("LangGraph Planner Actor", 3);
     expect(hits.some((hit) => hit.file.includes("04_langgraph"))).toBe(true);
   });
 
   it("prevents path traversal", async () => {
-    await expect(readKbSection("../package.json")).rejects.toThrow(/escapes knowledge root/);
+    await expect(readContextSection("../package.json")).rejects.toThrow(/escapes agent context root/);
   });
 });

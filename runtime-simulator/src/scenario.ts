@@ -14,8 +14,8 @@ type Phase =
   | "boss_after_bash"
   | "victory";
 
-export class MockRunEngine {
-  private runId = `mock-${Date.now()}`;
+export class RuntimeSimulatorEngine {
+  private runId = `sim-${Date.now()}`;
   private phase: Phase = "combat_open";
   private stepNo = 0;
   private busyReadsRemaining = 0;
@@ -30,7 +30,7 @@ export class MockRunEngine {
   health() {
     return {
       ok: true,
-      bridge: "mock-sts2-bridge",
+      bridge: "sts2-runtime-simulator",
       run_id: this.runId,
       port: Number(process.env.BRIDGE_PORT ?? 15526),
       autoslay: this.autoslay

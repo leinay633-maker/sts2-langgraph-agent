@@ -8,7 +8,7 @@ import {
   UpdateRunSummaryRequestSchema
 } from "../../shared/src/schemas.js";
 import { BridgeClient } from "./bridgeClient.js";
-import { readKbSection, searchKnowledge } from "./kb.js";
+import { readContextSection, searchContext } from "./contextStore.js";
 import { JsonlLogger } from "./logger.js";
 
 const bridge = new BridgeClient();
@@ -40,11 +40,11 @@ server.setRequestHandler(ListToolsRequestSchema, async () => ({
     tool("update_run_summary", "Write a structured strategy/risk memory diff.", {
       diff: { type: "object", description: "Structured memory diff. Facts remain Bridge-owned." }
     }),
-    tool("search_kb", "Search the built-in Markdown knowledge base.", {
+    tool("search_context", "Search the built-in agent context pack.", {
       query: { type: "string" },
       limit: { type: "number" }
     }),
-    tool("read_kb_section", "Read a full KB file or one Markdown heading.", {
+    tool("read_context_section", "Read a full context file or one Markdown heading.", {
       file: { type: "string" },
       heading: { type: "string" }
     }),
@@ -93,13 +93,13 @@ async function dispatch(name: string, args: Record<string, unknown>) {
       const parsed = UpdateRunSummaryRequestSchema.parse(args);
       return bridge.updateRunSummary(parsed.diff);
     }
-    case "search_kb": {
+    case "search_context": {
       const parsed = SearchKbRequestSchema.parse(args);
-      return searchKnowledge(parsed.query, parsed.limit);
+      return searchContext(parsed.query, parsed.limit);
     }
-    case "read_kb_section": {
+    case "read_context_section": {
       const parsed = ReadKbSectionRequestSchema.parse(args);
-      return readKbSection(parsed.file, parsed.heading);
+      return readContextSection(parsed.file, parsed.heading);
     }
     case "start_autoslay":
       return bridge.startAutoslay();

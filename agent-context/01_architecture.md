@@ -3,9 +3,9 @@
 本项目把《杀戮尖塔2》长时程 Agent 拆成四层：
 
 1. C# Mod Bridge：读取真实状态、枚举合法动作、执行动作、判断稳定态。
-2. Node MCP Server：把 Bridge 能力包装为 MCP tools，负责协议、参数校验、日志和知识库。
+2. Node MCP Server：把 Bridge 能力包装为 MCP tools，负责协议、参数校验、日志和上下文检索。
 3. LangGraph Runner：把 Observe、Planner、Actor、Verifier、Execute、Memory 显式拆成状态图。
-4. Knowledge Base：给 Planner/Actor 提供可检索的策略和工程背景。
+4. Agent Context：给 Planner/Actor 提供可检索的策略和工程背景。
 
 关键原则：LangGraph 不直接控制游戏，不生成自由文本动作。所有动作必须来自 `legal_actions`，最终只 POST `action_id`。
 

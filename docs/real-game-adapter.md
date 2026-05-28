@@ -1,18 +1,25 @@
-# 真实游戏接入说明
+# Bridge Adapter Design
 
-当前仓库包含完整 Bridge 架构和 Mock Demo，但没有硬编码《杀戮尖塔2》的内部类型名。
+Bridge Adapter 是游戏运行时和 Agent 工具层之间的隔离层。
 
-真实接入时只需要替换 `Bridge.Mod` 中的 `SampleGameAdapter`：
+它实现 `IGameAdapter`，向上提供稳定 DTO，向下对接具体游戏对象和主线程执行机制。
 
-```csharp
-IGameAdapter adapter = new SlayTheSpire2GameAdapter();
+## Responsibilities
+
+- `ReadState()`：读取当前 run、combat、map、reward、shop 等状态。
+- `ListLegalActions()`：枚举当前稳定态下的合法动作。
+- `ExecuteAction(actionId)`：重新校验动作后投递到游戏主线程。
+- `ReadSummary()`：读取结构化运行摘要。
+- `UpdateSummary(diff)`：写入策略和风险层更新。
+
+## Adapter Boundary
+
+Adapter 只负责游戏内部对象读取和动作投递，不负责 MCP 协议，不直接调用模型。
+
+外部链路保持不变：
+
+```text
+LangGraph Runner → MCP Server → Bridge HTTP API → IGameAdapter
 ```
 
-`SlayTheSpire2GameAdapter` 应实现：
-
-- `ReadState()`：读取真实 run/combat/map/reward/shop 状态。
-- `ListLegalActions()`：返回当前稳定态下的合法动作。
-- `ExecuteAction(actionId)`：重新校验 action_id 后投递到游戏主线程。
-- `ReadSummary()` / `UpdateSummary()`：读写结构化 run summary。
-
-不要把 MCP 协议塞进游戏进程。游戏内层只暴露 localhost HTTP，外部 MCP Server 负责模型工具协议。
+这个边界让游戏侧逻辑、工具协议和模型编排可以独立调试、独立替换。

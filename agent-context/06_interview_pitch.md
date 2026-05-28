@@ -10,4 +10,4 @@
 - 模型只能选择 `action_id`，不能自由生成操作。
 - 高风险动作有 Verifier 和 halt。
 - 记忆分事实、策略、风险、事件，避免 run_summary 漂移。
-- Mock Bridge 让项目可以脱离游戏展示，真实 Adapter 预留给 Mod 接入。
+- 本地可复现运行环境让项目可以稳定展示完整 Agent 链路。

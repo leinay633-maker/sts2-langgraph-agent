@@ -1,13 +1,13 @@
 # STS2 LangGraph Agent
 
-一个用于作品集展示的《杀戮尖塔2》长时程 LLM Agent 架构仓库。
+《杀戮尖塔2》长时程 LLM Agent 控制系统。
 
-它把知识库里的设想落成了代码：C# Bridge 负责游戏侧事实和合法动作，Node MCP Server 负责工具协议，TypeScript LangGraph Runner 负责编排 Planner/Actor/Verifier/Memory。仓库默认使用 Mock Bridge，所以没有真实游戏和 API Key 也能跑完整流程。
+项目将单机游戏运行时包装为可观测、可调用、可复盘的 Agent 环境：C# Bridge 负责游戏侧状态与动作边界，Node MCP Server 负责工具协议与调用链路，TypeScript LangGraph Runner 负责编排观察、规划、行动、复核、执行和记忆更新。
 
-## 架构
+## Architecture
 
 ```text
-C# Mod Bridge / Mock Bridge
+C# Bridge
   ↓ localhost HTTP
 Node MCP Server
   ↓ stdio MCP
@@ -20,7 +20,16 @@ LangGraph Runner
   └─ Memory
 ```
 
-## 快速运行
+## Core Design
+
+- **Runtime Bridge**：统一输出结构化游戏状态、稳定态标记、合法动作集合和执行结果。
+- **Action Boundary**：模型只能选择当前 `legal_actions` 中的 `action_id`，不能直接生成游戏操作。
+- **MCP Tool Layer**：将状态读取、动作执行、摘要更新和自动化控制封装为标准工具。
+- **LangGraph Orchestration**：用显式状态图拆分 Observe、Planner、Actor、Verifier、Execute、Memory。
+- **Risk Control**：结束回合、跳过奖励、删牌、精英路线等高风险动作进入 Verifier；fatal 风险直接 halt。
+- **Structured Memory**：按 facts、strategy、risks、events 分层记录，方便复盘与长时程恢复。
+
+## Quick Start
 
 ```bash
 npm install
@@ -29,7 +38,7 @@ npm run test
 npm run demo
 ```
 
-Demo 会启动 Mock Bridge、MCP Server 和 LangGraph Runner，并在 `runs/<run_id>/` 下生成：
+运行后会在 `runs/<run_id>/` 生成一次完整 Agent 回放：
 
 - `graph-events.jsonl`
 - `mcp-tools.jsonl`
@@ -37,21 +46,45 @@ Demo 会启动 Mock Bridge、MCP Server 和 LangGraph Runner，并在 `runs/<run
 - `final-state.json`
 - `transcript.md`
 
-## 目录
+仓库中也保留了一份样例输出：
 
-- `bridge-csharp/`：C# Bridge 源码。当前本机需要安装 .NET 9 SDK 才能构建。
-- `mock-bridge/`：TypeScript Mock Bridge，模拟一局短流程。
-- `mcp-server/`：MCP tools 层。
-- `langgraph-runner/`：LangGraph 状态图。
-- `knowledge/`：整理版内置知识库。
-- `docs/`：真实游戏接入和架构说明。
+```text
+examples/sample-run/
+```
 
-## 真实接入状态
+## Repository Layout
 
-仓库包含 C# Bridge 的核心源码和 Mod 外壳，但没有伪造真实游戏内部类型。当前可验证路径是 Mock Demo；真实接游戏时，需要基于游戏程序集补 `IGameAdapter` 的具体实现。
+```text
+bridge-csharp/        C# Bridge core, HTTP server, action resolver, stability guard
+runtime-simulator/    Local reproducible runtime for tests and replay
+mcp-server/           MCP tools and Bridge HTTP client
+langgraph-runner/     LangGraph state machine and node implementations
+shared/               Shared TypeScript contracts and schemas
+docs/                 Architecture and adapter notes
+examples/             Sample run output
+tests/                Routing, Bridge runtime, and tool boundary tests
+```
 
-这个选择是刻意的：作品集里展示的是正确的工程边界，而不是把不可验证的字段名写死。
+## Agent Loop
 
-## 面试讲法
+```text
+observe_state
+  → route_after_observe
+  → planner? 
+  → actor
+  → verifier?
+  → execute_action
+  → memory_update
+  → observe_state
+```
 
-我没有把整个 Agent 写成一个大 prompt，而是拆成了显式状态图。Bridge 负责事实，MCP 负责工具边界，LangGraph 负责编排，模型只在合法动作集合中选择 `action_id`。高风险动作进入 Verifier，fatal 风险 halt，不会继续 POST 副作用动作。
+大部分路由由代码决定，不交给模型自由判断。Planner 只在奖励、地图、商店、事件等关键节点运行；Verifier 只审高风险动作；Memory 只写结构化 diff。
+
+## What This Demonstrates
+
+- 无官方 Agent API 场景下的游戏运行时封装
+- MCP 工具边界与 LLM 动作约束
+- LangGraph 长时程状态机编排
+- 高风险动作复核与异常 halt
+- 结构化记忆、日志和回放体系
+- 可测试、可复现的 Agent 工程链路
