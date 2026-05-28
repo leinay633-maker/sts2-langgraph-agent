@@ -46,10 +46,10 @@ npm run agent:run
 - `final-state.json`
 - `transcript.md`
 
-仓库中也保留了一份样例输出：
+仓库中也保留了一份参考运行输出：
 
 ```text
-examples/sample-run/
+examples/reference-run/
 ```
 
 ## Repository Layout
@@ -61,7 +61,7 @@ mcp-server/           MCP tools and Bridge HTTP client
 langgraph-runner/     LangGraph state machine and node implementations
 shared/               Shared TypeScript contracts and schemas
 docs/                 Architecture and adapter notes
-examples/             Sample run output
+examples/             Reference run output
 tests/                Routing, Bridge runtime, and tool boundary tests
 ```
 

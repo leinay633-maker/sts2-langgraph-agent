@@ -1,0 +1,225 @@
+{
+  "runId": "agent-2026-05-28T16-38-35-343Z",
+  "maxSteps": 30,
+  "stepNo": 10,
+  "gameState": {
+    "run_id": "run-1779986315703",
+    "step_no": 9,
+    "status": "stable",
+    "state_type": "victory",
+    "screen": "victory",
+    "state_fingerprint": "victory:9:",
+    "player": {
+      "hp": 58,
+      "maxHp": 80,
+      "block": 0,
+      "energy": 3,
+      "gold": 35,
+      "deck": [
+        "Strike",
+        "Strike",
+        "Defend",
+        "Defend",
+        "Bash",
+        "Inflame",
+        "Battle Trance"
+      ],
+      "relics": [
+        "Burning Blood",
+        "Anchor"
+      ],
+      "potions": [
+        "Fire Potion"
+      ]
+    },
+    "enemies": [],
+    "legal_actions": [],
+    "is_game_over": true,
+    "outcome": "victory",
+    "message": "Victory"
+  },
+  "stateType": "victory",
+  "screen": "victory",
+  "stateFingerprint": "victory:9:",
+  "legalActions": [],
+  "plannerState": {
+    "build_direction": "strength_scaling",
+    "reward_policy": [
+      "优先补核心成长牌",
+      "跳过低质量牌",
+      "避免污染牌组"
+    ],
+    "route_policy": [
+      "血量低于 45% 时避开精英",
+      "Boss 前优先休息点和商店"
+    ],
+    "shop_policy": [
+      "优先过牌和防御",
+      "删牌仅在金币宽裕时执行"
+    ],
+    "boss_plan": "进入 Boss 前确认防御、过牌和药水。",
+    "confidence": 0.82,
+    "reasons": [
+      "当前阶段 shop 触发 Planner。",
+      "Context: 02_bridge.md - e Bridge 的核心职责是把游戏进程内部状态转成稳定 DTO。 ## 状态采集 状态采集由 Adapter 完成。Adapter 读取当前 run、combat、player、enemy、card zone、map、reward、shop 等对象，然后转成 `GameStateDto`。 ## 合法动作 Bridge 必须枚举当前所有合法动作，每个动作包含： - `action_id`：稳定标识，模型只能选择它。 - `action_type`：动作类型，例如 play_card、end_turn、",
+      "Context: 05_memory_and_risk.md - # Memory 与 Risk 结构化记忆分四层： - `facts`：只能由 Bridge 状态同步，模型不能写。 - `strategy`：Planner 写入，必须带理由。 - `risks`：Actor/Verifier 写入，必须带触发条件。 - `events`：系统 append，用于复盘。 ## 高风险动作 以下动作必须进入 Verifier： - `end_turn` - `skip_reward` - `remove_card` - `choose_elite_route` - 昂贵购"
+    ]
+  },
+  "candidateAction": null,
+  "risk": {
+    "level": "low",
+    "needs_verifier": false,
+    "reason": "低风险合法动作，可直接执行。"
+  },
+  "verifierResult": null,
+  "memory": {
+    "facts": {
+      "deck": [
+        "Strike",
+        "Strike",
+        "Defend",
+        "Defend",
+        "Bash",
+        "Inflame",
+        "Battle Trance"
+      ],
+      "relics": [
+        "Burning Blood",
+        "Anchor"
+      ],
+      "hp": {
+        "current": 58,
+        "max": 80
+      },
+      "gold": 35,
+      "phase": "victory",
+      "source_step": 9,
+      "source": "bridge"
+    },
+    "strategy": {
+      "build_direction": "strength_scaling",
+      "last_action_reason": "action executed",
+      "source_step": 9
+    },
+    "risks": {
+      "last_risk": {
+        "level": "low",
+        "needs_verifier": false,
+        "reason": "低风险合法动作，可直接执行。"
+      },
+      "source_step": 9
+    },
+    "events": [
+      {
+        "step_no": 0,
+        "event_type": "play_card",
+        "summary": "打出 Strike",
+        "source": "system"
+      },
+      {
+        "step_no": 1,
+        "event_type": "summary_diff",
+        "summary": "{\"strategy\":{\"build_direction\":\"unknown\",\"last_action_reason\":\"action executed\",\"source_step\":1},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":1}}",
+        "source": "model"
+      },
+      {
+        "step_no": 1,
+        "event_type": "play_card",
+        "summary": "打出 Defend",
+        "source": "system"
+      },
+      {
+        "step_no": 2,
+        "event_type": "summary_diff",
+        "summary": "{\"strategy\":{\"build_direction\":\"unknown\",\"last_action_reason\":\"action executed\",\"source_step\":2},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":2}}",
+        "source": "model"
+      },
+      {
+        "step_no": 2,
+        "event_type": "end_turn",
+        "summary": "结束回合",
+        "source": "system"
+      },
+      {
+        "step_no": 3,
+        "event_type": "summary_diff",
+        "summary": "{\"strategy\":{\"build_direction\":\"unknown\",\"last_action_reason\":\"action executed\",\"source_step\":3},\"risks\":{\"last_risk\":{\"level\":\"high\",\"needs_verifier\":true,\"reason\":\"动作风险为 high，需要复核：格挡足够，结束回合进入奖励页。\"},\"source_step\":3}}",
+        "source": "model"
+      },
+      {
+        "step_no": 3,
+        "event_type": "choose_reward",
+        "summary": "选择 Inflame",
+        "source": "system"
+      },
+      {
+        "step_no": 4,
+        "event_type": "summary_diff",
+        "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":4},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":4}}",
+        "source": "model"
+      },
+      {
+        "step_no": 4,
+        "event_type": "choose_map_node",
+        "summary": "选择安全路线",
+        "source": "system"
+      },
+      {
+        "step_no": 5,
+        "event_type": "summary_diff",
+        "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":5},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":5}}",
+        "source": "model"
+      },
+      {
+        "step_no": 5,
+        "event_type": "buy_item",
+        "summary": "购买 Battle Trance",
+        "source": "system"
+      },
+      {
+        "step_no": 6,
+        "event_type": "summary_diff",
+        "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":6},\"risks\":{\"last_risk\":{\"level\":\"medium\",\"needs_verifier\":false,\"reason\":\"动作风险为 medium，需要复核：补充过牌能力。\"},\"source_step\":6}}",
+        "source": "model"
+      },
+      {
+        "step_no": 6,
+        "event_type": "leave_shop",
+        "summary": "离开商店",
+        "source": "system"
+      },
+      {
+        "step_no": 7,
+        "event_type": "summary_diff",
+        "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":7},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":7}}",
+        "source": "model"
+      },
+      {
+        "step_no": 7,
+        "event_type": "play_card",
+        "summary": "对 Boss 打出 Bash",
+        "source": "system"
+      },
+      {
+        "step_no": 8,
+        "event_type": "summary_diff",
+        "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":8},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":8}}",
+        "source": "model"
+      },
+      {
+        "step_no": 8,
+        "event_type": "play_card",
+        "summary": "打出 Heavy Blade",
+        "source": "system"
+      },
+      {
+        "step_no": 9,
+        "event_type": "summary_diff",
+        "summary": "{\"strategy\":{\"build_direction\":\"strength_scaling\",\"last_action_reason\":\"action executed\",\"source_step\":9},\"risks\":{\"last_risk\":{\"level\":\"low\",\"needs_verifier\":false,\"reason\":\"低风险合法动作，可直接执行。\"},\"source_step\":9}}",
+        "source": "model"
+      }
+    ]
+  },
+  "lastError": null,
+  "haltReason": null
+}

@@ -6,9 +6,9 @@ namespace Sts2LangGraphAgent.Bridge.Tests;
 public sealed class StabilityGuardTests
 {
     [Fact]
-    public void SampleAdapterStartsStable()
+    public void LocalRuntimeAdapterStartsStable()
     {
-        var adapter = new SampleGameAdapter();
+        var adapter = new LocalRuntimeAdapter();
         var guard = new StabilityGuard();
         Assert.True(guard.IsStable(adapter.ReadState()));
     }
@@ -16,7 +16,7 @@ public sealed class StabilityGuardTests
     [Fact]
     public void ActionResolverRejectsUnknownAction()
     {
-        var adapter = new SampleGameAdapter();
+        var adapter = new LocalRuntimeAdapter();
         var resolver = new ActionResolver(adapter, new StabilityGuard());
         var response = resolver.ExecuteIfLegal("missing");
         Assert.Equal("rejected", response.Status);
